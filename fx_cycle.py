@@ -4,7 +4,7 @@ import fx_common as fx # shared globals
 from itertools import cycle
 
 
-def fx_cycle(lights: list[int], t_rate: int=5):
+def fx_cycle(lights: list, t_rate: int):
     """Cycles between different lights
     - lights: list of light num's indicating lights to cycle through in the given order
     - t_rate: number of frames it takes to transition between two lights, default=5"""
@@ -14,9 +14,7 @@ def fx_cycle(lights: list[int], t_rate: int=5):
     light = cycle(lights)
     l1 = next(light)
     l2 = next(light)
-    # delta = 1/fx.NUM_FRAMES - 1
     W = cycle(np.linspace(1, 0, t_rate))
-    # NOTE: set t_rate = 10 to match ryans default version
     for f_idx in range(0, fx.NUM_FRAMES):
         alpha = next(W)
         img = cv.addWeighted(fx.FRAMES[l1][f_idx], alpha,
@@ -40,4 +38,3 @@ def fx_cycle(lights: list[int], t_rate: int=5):
 if __name__ == "__main__":
     print("TODO: impl some testing option here. Call editor.py for now.")
     exit()
-    fx_cycle()

@@ -33,7 +33,7 @@ if __name__ == "__main__":
     #                     help='Effect specific arguments, defaults used if not provided. List args space separated')
 
     parser.add_argument('--lights', nargs='*', default = [1, 2], required=False,
-                        help=('Light number args for police and cycle effects. ',
+                        help=('Light number args for police and cycle effects. '
                               'Police: light nums for red and blue (ordered) | Cycle: Order of light nums to transition between'))
 
     parser.add_argument('--t-rate', dest='t_rate', default=10, required=False,
