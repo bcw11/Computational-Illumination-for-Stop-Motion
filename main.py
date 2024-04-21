@@ -33,11 +33,11 @@ if __name__ == "__main__":
     #                     help='Effect specific arguments, defaults used if not provided. List args space separated')
 
     parser.add_argument('--lights', nargs='*', default = [1, 2], required=False,
-                        help=('Light number args for police and cycle effects. '
+                        help=('Light number args for police and cycle effects. Default = [1, 2]. '
                               'Police: light nums for red and blue (ordered) | Cycle: Order of light nums to transition between'))
 
     parser.add_argument('--t-rate', dest='t_rate', default=10, required=False,
-                        help='Argument for cycle command, number of frames to transition between 2 lights. Default 5')
+                        help='Argument for cycle effect, number of frames to transition between 2 lights. Default 10')
 
     parser.add_argument('--zoom', choices=['wide', 'square'], required=False,
                         help="Flag to crop & resize frames to FHD. wide=16:9, square=4:3")
@@ -67,8 +67,7 @@ if __name__ == "__main__":
         fx_util.zoom(fx.ARGS.zoom == 'wide', camera)
 
     # TODO: call effects applier function
-
+    fx_util.apply_effect()
     fx_util.render_video(fx.ARGS.verbose)
-
-    print(f"Camera {camera} w/ {len(fx.FRAMES.keys())} lights & frames {len(fx.FRAMES[2])} per light")
-    print(fx.FRAMES[1][0].shape[:2])
+    # print(f"Camera {camera} w/ {len(fx.FRAMES.keys())} lights & frames {len(fx.FRAMES[2])} per light")
+    # print(fx.FRAMES[1][0].shape[:2])

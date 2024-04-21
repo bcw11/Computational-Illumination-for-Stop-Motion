@@ -10,9 +10,9 @@ def fx_underwater():
     for f_idx in range(0, fx.NUM_FRAMES):
         img = cv.addWeighted(fx.FRAMES[1][f_idx], alpha,
                              fx.FRAMES[2][f_idx], alpha, 0)
-        img = cv.addWeighted(img, 1, fx.FRAMES[3], alpha, 0)
+        img = cv.addWeighted(img, 1, fx.FRAMES[3][f_idx], alpha, 0)
 
-        img[:, :, 0] = 0
+        img[:, :, 2] = 0
         img[:, :, 1] = img[:, :, 1]/2
         fx.OUT_FRAMES.append(img)
 

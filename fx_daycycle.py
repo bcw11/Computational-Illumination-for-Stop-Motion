@@ -22,7 +22,7 @@ def __day_v2(start: int, end: int):
         fx_val = np.sin( (f_idx/np.pi) + np.pi/2 )
         img[:, :, 2] = img[:, :, 2]*( 0.5*(fx_val+1))
         img[:, :, 1] = img[:, :, 1]*(0.25*(fx_val+3))
-        img[:, :, 0] = img[:, :, 0](0.1*(fx_val+9))
+        img[:, :, 0] = img[:, :, 0]*(0.1*(fx_val+9))
 
         fx.OUT_FRAMES.append(img) # NOTE: just leave in bgr
 

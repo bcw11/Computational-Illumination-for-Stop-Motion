@@ -15,6 +15,7 @@ import fx_underwater
 
 def load_frames(src_dir: str, camera: int):
     """Setup shared FRAMES array"""
+    print("Loading frames")
     fx.FRAMES = {i:[] for i in range(1, fx.NUM_LIGHTS+1)}
 
     camera_dir = f"{src_dir}/camera{camera}"
@@ -25,12 +26,14 @@ def load_frames(src_dir: str, camera: int):
         [light, _] = map(int, re_findall(r'\d+', img))
         # print(f"Reading: camera {camera} light {light} frame {frame}: {img}")
         im = cv.imread(os.path.join(camera_dir, img))
+        # im = np.asarray(Image.open(os.path.join(camera_dir, img))).copy
         assert im is not None, f"File couldn't be read at path={os.path.join(camera_dir, img)}"
 
         fx.FRAMES[light].append(im)
         # fx.FRAMES[light].append(img)
 
 def zoom(wide: bool, camera: int):
+    print(f"Applying {fx.ARGS.zoom} zoom")
     CROP_COORS = {
         True: {
             1: (670, 342),2: (670, 342),3: (500, 342),4: (670, 434),
@@ -50,26 +53,34 @@ def zoom(wide: bool, camera: int):
             fx.FRAMES[l_idx][f_idx] = cv.resize(img, size)
 
 def apply_effect():
+    print("Applying effect")
     effect = fx.ARGS.effect
     if effect == "cycle":
-        fx_cycle.fx_cycle(fx.ARGS.lights, fx.ARGS.t_rate)
+        fx_cycle.fx_cycle(list(map(int, fx.ARGS.lights)), int(fx.ARGS.t_rate))
     elif effect == "daycycle":
         fx_daycycle.fx_daycycle(2)
     elif effect == "disco":
         fx_disco.fx_disco()
     elif effect == "lightning":
         fx_lightning.fx_lightning()
-    elif effect == "police lights":
-        fx_police_lights.fx_police_lights(fx.ARGS.lights)
+    elif effect == "police":
+        fx_police_lights.fx_police_lights(int(fx.ARGS.lights[0]), int(fx.ARGS.lights[1]))
     elif effect == "underwater":
         fx_underwater.fx_underwater()
+    else:
+        print("Somethings fucked")
+        exit(-420)
 
 def render_video(verbose: bool):
     """Render frames out to a mp4 video"""
     assert len(fx.OUT_FRAMES) != 0, f"Nothing to render in fx.OUT_FRAMES"
+    print(f'Rendering video{" with frame output" if fx.ARGS.verbose else ""}')
 
-    d = dt.now()
-    filename = f"render_{d.year}-{d.month}-{d.day}-{d.hour}:{d.minute}:{d.second}.mp4"
+    dt_str = dt.now().strftime("%Y%m%d-%H%M%S")
+    filename = f"render_{fx.ARGS.effect}_{dt_str}{f'.{fx.ARGS.zoom}' if fx.ARGS.zoom else ''}.mp4"
+    if fx.ARGS.verbose:
+        dirname = f"frames_{filename}"
+        os.mkdir(dirname)
     size = fx.OUT_FRAMES[0].shape
     size = (size[1], size[0])
 
@@ -78,12 +89,12 @@ def render_video(verbose: bool):
         # video.write(cv.cvtColor(frame, cv.COLOR_RGB2BGR))
         video.write(frame)
         if verbose:
-            os.mkdir(f"frames_{filename}")
-            cv.imwrite(f"frames_{filename}/frame-{idx+1:03d}.png", frame)
-    video.release()
+            cv.imwrite(f"{dirname}/frame-{idx+1:03d}.png", frame)
 
-    cv.destroyAllWindows() # NOTE: need?
-    print("Video render complete")
+    video.release()
+    print(f"Video render complete: {filename}")
+    if fx.ARGS.verbose:
+        print(f"Video frames output complete: {dirname}")
 
 if __name__ == "__main__":
     print("TODO: impl some testing option here. Call editor.py for now.")

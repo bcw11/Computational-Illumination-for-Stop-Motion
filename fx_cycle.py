@@ -9,7 +9,7 @@ def fx_cycle(lights: list, t_rate: int):
     - lights: list of light num's indicating lights to cycle through in the given order
     - t_rate: number of frames it takes to transition between two lights, default=5"""
     assert len(lights) > 0 and len(lights) <= fx.NUM_LIGHTS, f"[fx_cycle] Invalid lights_order={lights}"
-    assert t_rate > 0 and t_rate < fx.FPS, f"[fx_cycle] Invalid t_rate={t_rate}"
+    assert t_rate > 0, f"[fx_cycle] Invalid t_rate={t_rate}"
 
     light = cycle(lights)
     l1 = next(light)
@@ -24,14 +24,8 @@ def fx_cycle(lights: list, t_rate: int):
         # update lights
         if alpha == 0:
             l1 = next(light) if l2 == lights[-1] else l2
+            # l1 = next(light)
             l2 = next(light)
-
-            # if l2 == lights[-1]: # NOTE: should prevent weird back and forth, maybe test w/o this
-            #     l1 = next(light)
-            #     l2 = next(light)
-            # else:
-            #     l1 = l2
-            #     l2 = next(light)
 
 
 
