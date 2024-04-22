@@ -16,7 +16,7 @@ import fx_utility as fx_util
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        prog='Editor.py',
+        prog='main.py',
         description='Applies effects to stop motion frames'
     )
 
@@ -60,7 +60,7 @@ if __name__ == "__main__":
 
     camera_dir = fx.ARGS.camera_dir
     camera = fx.ARGS.camera
-    assert os.path.exists(camera_dir), f"[Editor] Invalid camera dir {camera_dir}"
+    assert os.path.exists(camera_dir), f"[main] Invalid camera dir {camera_dir}"
 
     fx_util.load_frames(camera_dir, camera)
     if fx.ARGS.zoom:

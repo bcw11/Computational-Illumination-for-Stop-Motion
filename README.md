@@ -34,7 +34,7 @@ python3 -m pip install -r requirements.txt
 To apply effects use the `main.py` program:
 ```
 $ python3 main.py --help
-usage: Editor.py [-h] --camera-dir CAMERA_DIR --camera {1,2,3,4,5,6,7,8} --effect
+usage: main.py [-h] --camera-dir CAMERA_DIR --camera {1,2,3,4,5,6,7,8} --effect
                  {cycle,daycycle,disco,lightning,police,underwater} [--lights [LIGHTS ...]] [--t-rate T_RATE]
                  [--zoom {wide,square}] [--verbose]
 
