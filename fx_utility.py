@@ -77,7 +77,7 @@ def render_video(verbose: bool):
     print(f'Rendering video{" with frame output" if fx.ARGS.verbose else ""}')
 
     dt_str = dt.now().strftime("%Y%m%d-%H%M%S")
-    filename = f"render_{fx.ARGS.effect}_{dt_str}{f'.{fx.ARGS.zoom}' if fx.ARGS.zoom else ''}.mp4"
+    filename = f"render_{fx.ARGS.effect}_{fx.ARGS.camera}_{dt_str}{f'.{fx.ARGS.zoom}' if fx.ARGS.zoom else ''}.mp4"
     if fx.ARGS.verbose:
         dirname = f"frames_{filename}"
         os.mkdir(dirname)
@@ -89,7 +89,7 @@ def render_video(verbose: bool):
         # video.write(cv.cvtColor(frame, cv.COLOR_RGB2BGR))
         video.write(frame)
         if verbose:
-            cv.imwrite(f"{dirname}/frame-{idx+1:03d}.png", frame)
+            cv.imwrite(f"{dirname}/frame-{fx.ARGS.camera}-{idx+1:03d}.png", frame)
 
     video.release()
     print(f"Video render complete: {filename}")
