@@ -1,5 +1,5 @@
 # Computational Illumination for Stop Motion
-Vijender Bakhshi | Byron Wong | Ryan Zrymiak
+Vijender Bakhshi | Bryan Wong | Ryan Zrymiak
 ____
 <div style="text-align:center">
   <img src="./img_teaser.png" alt="Stop motion scenes with interpolated lighting">
